@@ -1,0 +1,6 @@
+# Set to Current Defaults
+TARGETS_FILE=targets.txt
+TEMPLATES_LIST=cves,misconfiguration,vulnerabilities
+OUTPUT_FILE=results.json
+ENABLE_OUTPUT_FILE=false
+REQUEST_DELAY=1

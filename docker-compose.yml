@@ -1,0 +1,29 @@
+services:
+  echo-server:
+    container_name: echo-server
+    image: hashicorp/http-echo
+    ports:
+      - "8080:8080"
+    command: ["-listen=:8080", "-text=hello world"]
+    networks:
+      - nuclei-network
+
+  tx-pyscan:
+    container_name: tx-pyscan
+    depends_on:
+      echo-server:
+        condition: service_started
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - nuclei-network
+    env_file: 
+      - .example-env
+
+networks:
+  nuclei-network:
+    name: nuclei-network
+    attachable: true
+    ipam:
+      driver: default
