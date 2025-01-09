@@ -1,5 +1,6 @@
 import subprocess
 import os
+import random
 
 # *** Configuration: ***
 NUCLEI_BINARY = "nuclei"
@@ -8,6 +9,46 @@ TEMPLATES_LIST = [template for template in os.getenv('TEMPLATES_LIST', 'cves,mis
 OUTPUT_FILE = os.getenv("OUTPUT_FILE", "results.json")
 ENABLE_OUTPUT_FILE = os.getenv("ENABLE_OUTPUT_FILE", "false").lower() == "true"
 REQUEST_DELAY_SECONDS = os.getenv("REQUEST_DELAY", "1")
+HEADER_NAME = os.getenv("HEADER_NAME", "X-Real-IP")
+HEADER_VALUE = os.getenv("HEADER_VALUE", "random-ip")
+
+# Exclude DNS Ips:
+EXCLUDED_DNS_IPS = {
+    "1.1.1.1",
+    "1.0.0.1",
+    "8.8.8.8", 
+    "8.8.4.4",
+    "9.9.9.9",
+    "149.112.112.112",
+    "208.67.222.222",
+    "208.67.220.220",
+    "185.228.168.9",
+    "185.228.169.9",
+}
+
+def generate_random_public_ip():
+    # Keep generated IPs until we find out that is excluded from private, reserved, and invalid IP ranges.
+    while True:
+        ip = f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 255)}"
+        
+        first_octet = int(ip.split('.')[0])
+        second_octet = int(ip.split('.')[1])
+
+        if (
+            first_octet == 10 or
+            (first_octet == 172 and 16 <= second_octet <= 31) or
+            first_octet == 192 and second_octet == 168 or
+            first_octet >= 224 or
+            ip in EXCLUDED_DNS_IPS
+        ):
+            continue
+        print(f"[INFO] Spoofed {HEADER_NAME} is using this IP: {ip}")
+        return ip
+
+def get_header_value():
+    if HEADER_VALUE.lower() == "random-ip":
+        return generate_random_public_ip()
+    return HEADER_VALUE
 
 def check_env_vars():
     print("Environment Variable Configuration:")
@@ -17,6 +58,8 @@ def check_env_vars():
     print(f"OUTPUT_FILE: {OUTPUT_FILE} (Default: 'results.json')")
     print(f"ENABLE_OUTPUT_FILE: {ENABLE_OUTPUT_FILE} (Default: 'false')")
     print(f"REQUEST_DELAY_SECONDS: {REQUEST_DELAY_SECONDS} (Default: '1')")
+    print(f"HEADER_NAME: {HEADER_NAME} (Default: 'X-Real-IP')")
+    print(f"HEADER_VALUE: {HEADER_VALUE} (Default: 'random-ip')")
 
 def run_nuclei(targets_file, templates, output_file, enable_output, request_delay):
     try:
@@ -25,6 +68,8 @@ def run_nuclei(targets_file, templates, output_file, enable_output, request_dela
             exit(1)
 
         templates_arg = ",".join(templates)
+        header_value = get_header_value()
+        header = f"{HEADER_NAME}: {header_value}"
 
         command = [
             NUCLEI_BINARY,
@@ -33,7 +78,9 @@ def run_nuclei(targets_file, templates, output_file, enable_output, request_dela
             "-rl", "1",
             "-rld", request_delay,
             "-list", targets_file,
-            "-duc" # Disable update check
+            "-duc", # Disable update check
+            "-H", header
+
         ]
 
         result = subprocess.run(
