@@ -1,5 +1,7 @@
 # TX-Pyscan
 
+tx-pyscan is a containerized wrapper for the Nuclei vulnerability scanner. It simplifies the process of executing scans against a specified list of targets by providing a consistent and bandwidth-efficient environment. The tool prevents redundant template downloads, supports dynamic configuration through environment variables, and includes input validation to ensure proper operation. It is designed for users who require a streamlined, repeatable scanning process with minimal overhead.
+
 ## Important Note
 #### <strong>Always start by double checking and updating the targets file before using this.</strong>
 #### <strong>You do not want to accidentatly run this against an unknown device as this is executing actual active attack payloads.</strong>
