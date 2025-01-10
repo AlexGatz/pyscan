@@ -3,6 +3,7 @@ import os
 import random
 import re
 import sys
+import time
 
 # *** Configuration: ***
 NUCLEI_BINARY = "nuclei"
@@ -74,7 +75,15 @@ def validate_target_file(file_path):
         if not valid_targets:
             raise ValueError(f"Target file '{file_path}' is empty or contains no valid targets.")
         
-        return valid_targets  # Return the list of valid targets
+        print(f"[INFO] Valid targets found in '{file_path}':", flush=True)
+        for target in valid_targets:
+            print(f"  - {target}", flush=True)
+        print("[INFO] If you see any incorrect targets, you have 5 seconds to ctrl-c or kill the container.")
+        for i in range(5, 0, -1):
+            print(f"[INFO] {i}...", flush=True)
+            time.sleep(1)
+
+        return valid_targets
     except Exception as e:
         print(f"[ERROR] {e}", flush=True)
         sys.exit(1)
