@@ -2,6 +2,8 @@
 
 tx-pyscan is a containerized wrapper for the Nuclei vulnerability scanner. It simplifies the process of executing scans against a specified list of targets by providing a consistent and bandwidth-efficient environment. The tool prevents redundant template downloads, supports dynamic configuration through environment variables, and includes input validation to ensure proper operation. It is designed for users who require a streamlined, repeatable scanning process with minimal overhead.
 
+- Please review the [Project Discovery / Nuclei Project](https://github.com/projectdiscovery/nuclei.git) for more details about that tool.
+
 ## Important Note
 #### <strong>Always start by double checking and updating the targets file before using this.</strong>
 #### <strong>You do not want to accidentatly run this against an unknown device as this is executing actual active attack payloads.</strong>
@@ -9,8 +11,8 @@ tx-pyscan is a containerized wrapper for the Nuclei vulnerability scanner. It si
 ## Build and Run Locally
 ### Requirements
 - *Note: Only Mac and Linux supported at this time.*
-- Install Docker[https://docs.docker.com/desktop/]
-- Install git[https://git-scm.com/book/en/v2/Getting-Started-Installing-Git]
+- Install [Docker](https://docs.docker.com/desktop/)
+- Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - Clone the repo: `git clone https://github.com/AlexGatz/tx-pyscan.git`
 - Open or `cd` into the tx-pyscan directory.
 
