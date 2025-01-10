@@ -1,14 +1,26 @@
 # TX-Pyscan
 
 ## Important Note
-### <strong>Always start by double checking and updating the targets file before using this. You do not want to accidentatly run this against someone.</strong>
+#### <strong>Always start by double checking and updating the targets file before using this.</strong>
+#### <strong>You do not want to accidentatly run this against an unknown device as this is executing actual active attack payloads.</strong>
 
 ## Build and Run Locally
-### Just Docker
-`docker build -t tx-pyscan .`\
-`docker run --rm --env-file .example-env tx-pyscan`
+### Requirements
+- *Note: Only Mac and Linux supported at this time.*
+- Install Docker[https://docs.docker.com/desktop/]
+- Install git[https://git-scm.com/book/en/v2/Getting-Started-Installing-Git]
+- Clone the repo: `git clone https://github.com/AlexGatz/tx-pyscan.git`
+- Open or `cd` into the tx-pyscan directory.
 
-### Docker Compose
+### 3 Options (mac or linux):
+#### Single line Build and Run Command (easiest)
+`docker build -t tx-pyscan . && docker run --rm -v $(pwd)/targets.txt:/app/targets.txt tx-pyscan`
+
+#### Basic Standalone Container with Custom Config (.env file)
+`docker build -t tx-pyscan .`\
+`docker run --rm --env-file .example-env -v $(pwd)/targets.txt:/app/targets.txt tx-pyscan`
+
+#### Docker Compose Based Test with echo-server (development)
 `docker compose up --build`\
 *Note: The included target.txt file is meant for this compose file.*
 
@@ -23,6 +35,7 @@ __HEADER_NAME__=X-Real-IP (default to X-Real-IP for spoofing)\
 __HEADER_VALUE__=random-ip (default to random IP generation)\
 *Note: Only single header customization is currently supported.*
 
+## Disclaimer
 This script is provided "as-is" without any express or implied warranties, including, but not limited to, the implied warranties of merchantability or fitness for a particular purpose. By using this script, you agree to the following terms:
 
 Usage Responsibility:
