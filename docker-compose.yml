@@ -8,8 +8,8 @@ services:
     networks:
       - nuclei-network
 
-  tx-pyscan:
-    container_name: tx-pyscan
+  pyscan:
+    container_name: pyscan
     depends_on:
       echo-server:
         condition: service_started
