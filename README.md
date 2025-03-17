@@ -1,6 +1,6 @@
 # Pyscan
 
-tx-pyscan is a containerized wrapper for the Nuclei vulnerability scanner. It simplifies the process of executing scans against a specified list of targets by providing a consistent and bandwidth-efficient environment. The tool prevents redundant template downloads, supports dynamic configuration through environment variables, and includes input validation to ensure proper operation. It is designed for users who require a streamlined, repeatable scanning process with minimal overhead.
+pyscan is a containerized wrapper for the Nuclei vulnerability scanner. It simplifies the process of executing scans against a specified list of targets by providing a consistent and bandwidth-efficient environment. The tool prevents redundant template downloads, supports dynamic configuration through environment variables, and includes input validation to ensure proper operation. It is designed for users who require a streamlined, repeatable scanning process with minimal overhead.
 
 - Please review the [Project Discovery / Nuclei Project](https://github.com/projectdiscovery/nuclei.git) for more details about that tool.
 
@@ -13,16 +13,16 @@ tx-pyscan is a containerized wrapper for the Nuclei vulnerability scanner. It si
 - *Note: Only Mac and Linux supported at this time.*
 - Install [Docker](https://docs.docker.com/desktop/)
 - Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-- Clone the repo: `git clone https://github.com/AlexGatz/tx-pyscan.git`
-- Open or `cd` into the tx-pyscan directory.
+- Clone the repo: `git clone https://github.com/AlexGatz/pyscan.git`
+- Open or `cd` into the pyscan directory.
 
 ### 3 Options (mac or linux):
 #### Single line Build and Run Command (easiest)
-`docker build -t tx-pyscan . && docker run --rm -v $(pwd)/targets.txt:/app/targets.txt tx-pyscan`
+`docker build -t pyscan . && docker run --rm -v $(pwd)/targets.txt:/app/targets.txt pyscan`
 
 #### Basic Standalone Container with Custom Config (.env file)
-`docker build -t tx-pyscan .`\
-`docker run --rm --env-file .example-env -v $(pwd)/targets.txt:/app/targets.txt tx-pyscan`
+`docker build -t pyscan .`\
+`docker run --rm --env-file .example-env -v $(pwd)/targets.txt:/app/targets.txt pyscan`
 
 #### Docker Compose Based Test with echo-server (development)
 `docker compose up --build`\
